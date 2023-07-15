@@ -1,10 +1,15 @@
 import './App.css'
+import { library } from '../../books.json'
 
 function App () {
+  // console.log(typeof library)
+  const libraries = Object.entries(library)
+  console.log(libraries)
   return (
-    <h1>
-      Hello world!
-    </h1>
+    libraries.map(el => (
+        <h1 key={el[1].book.ISBN}>{el[1].book.title}</h1>
+    ))
+
   )
 }
 
