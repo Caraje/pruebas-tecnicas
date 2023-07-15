@@ -1,15 +1,34 @@
 import './App.css'
 import { library } from '../../books.json'
+import ListOfBooks from './components/ListOfBooks'
+import { useState } from 'react'
+import SearchBooks from './components/SearchBooks'
 
 function App () {
-  // console.log(typeof library)
-  const libraries = Object.entries(library)
-  console.log(libraries)
+  const actualLibrary = Object.values(library)
+  const [booksAbaliables, setBooksAbaliables] = useState(actualLibrary)
+  const handleSearch = (event) => {
+    event.preventDefault()
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    const { search } = Object.fromEntries(formData.entries())
+    setBooksAbaliables(actualLibrary.filter(el => el.book.title.toLowerCase().includes(search.toLowerCase())))
+  }
   return (
-    libraries.map(el => (
-        <h1 key={el[1].book.ISBN}>{el[1].book.title}</h1>
-    ))
-
+    <section className='bg-caraje-white w-full flex gap-4'>
+      <aside className='min-h-screen bg-caraje-darkBeige w-60'>
+        <section>
+          Barra de opciones / generos
+        </section>
+        <section>
+          Lista de pendientes de lectura
+        </section>
+      </aside>
+      <main className='bg-neutral-300 w-full'>
+        <SearchBooks handleSearch={handleSearch} />
+        <ListOfBooks library={booksAbaliables}/>
+      </main>
+    </section>
   )
 }
 
